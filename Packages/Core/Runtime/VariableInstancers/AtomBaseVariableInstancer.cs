@@ -30,7 +30,19 @@ namespace UnityAtoms
         /// </summary>
         public T Value { get => _inMemoryCopy.Value; set => _inMemoryCopy.Value = value; }
 
-        public virtual V Base { get => _base; }
+        public virtual V Base
+        {
+            get => _base;
+            set
+            {
+                _base = value;
+
+                if (_inMemoryCopy != null)
+                    DestroyImmediate(_inMemoryCopy);
+
+                OnEnable();
+            }
+        }
 
         [SerializeField]
         [ReadOnly]
